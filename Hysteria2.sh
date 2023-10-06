@@ -3,7 +3,7 @@
 # We clear the console
 clear
 
-scriptversion="0.6.9"
+scriptversion="0.8.4"
 
 echo "=========================================================================
 |             Fast Hysteria 2 script by @MohsenHNSJ (Github)            |
@@ -47,8 +47,7 @@ then
             echo "No action is needed, exiting..."
             exit
     else 
-            echo "Sing-Box has updates! updating..."
-            # TODO : UPDATE MECHANISM!!!!
+            echo "Sing-Box has updates! But i don't know how to update it :( "
     fi
     exit
 else
@@ -2324,3 +2323,32 @@ cat > $configfile << EOL
 }
 EOL
 
+echo "=========================================================================
+|                         Starting Hysteria                             |
+========================================================================="
+# We now start Hysteria service
+sudo systemctl start hysteria2 && sudo systemctl status hysteria2
+
+echo "=========================================================================
+|                                DONE                                   |
+========================================================================="
+# We get vps ip
+vpsip=$(hostname -I | awk '{ print $1}')
+
+# We get vps name
+hostname=$('hostname')
+
+# We show connection information
+echo "
+NAME : $hostname
+ADDRESS : $vpsip
+PORT : 443
+OBFUSCATION PASSWORD : $salamanderpassword
+AUTHENTICATION PASSWORD : $hysteriapassword
+ALLOW INSECURE : TRUE
+==========
+LOCAL USERNAME : $tempusername
+LOCAL PASSWORD : $temppassword
+"
+
+# We show some final
