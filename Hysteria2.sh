@@ -3,7 +3,7 @@
 # We clear the console
 clear
 
-scriptversion="0.0.1"
+scriptversion="0.0.2"
 hysteriaversion="1.0.0"
 
 echo "=========================================================================
@@ -62,4 +62,4 @@ root soft     nofile         655350
 root hard     nofile         655350" >> /etc/security/limits.conf
 
 # We apply the changes
-sudo sysctl -p &>> /FastReality/log.txt
+sudo sysctl -p &>> /FastHysteria2/log.txt
