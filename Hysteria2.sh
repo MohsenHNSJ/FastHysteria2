@@ -3,7 +3,7 @@
 # We clear the console
 clear
 
-scriptversion="0.2.3"
+scriptversion="0.3.5"
 
 echo "=========================================================================
 |             Fast Hysteria 2 script by @MohsenHNSJ (Github)            |
@@ -25,7 +25,7 @@ echo "=========================================================================
 # We install/update the packages we use during the process to ensure optimal performance
 # This installation must run without confirmation (-y)
 sudo apt update
-sudo apt -y install wget tar openssl gawk sshpass ufw coreutils curl adduser sed grep
+sudo apt -y install wget tar openssl gawk sshpass ufw coreutils curl adduser sed grep util-linux
 
 # We check and save the latest version number of Sing-Box
 latestsingboxversion="$(curl --silent "https://api.github.com/repos/SagerNet/sing-box/releases/latest" | grep -Po "(?<=\"tag_name\": \").*(?=\")"  | sed 's/^.//' )"
@@ -190,4 +190,35 @@ cd hysteria2/
 # We check and save the hardware architecture of current machine
 hwarch="$(uname -m)"
 
+case $hwarch in 
+x86_64)
+# We check if cpu supprt AVX
+avxsupport="$(lscpu | grep -o avx)"
+
+if [ -z "$avxsupport" ];
+then 
+	echo "AVX is NOT supported"
+    hwarch="amd64"
+else
+	echo "AVX is Supported"
+    hwarch="amd64v3"
+fi
+;;
+aarch64)
+hwarch="arm64" ;;
+armv7l)
+hwarch="armv7" ;;
+*)
+echo "This architecture is NOT Supported by this script. exiting ..."
+exit ;;
+esac
+
 # We download the latest suitable package for current machine
+
+
+
+
+
+wget https://github.com/SagerNet/sing-box/releases/download/v$latestsingboxversion/sing-box-$latestsingboxversion-linux-amd64.tar.gz
+
+# TODO : RELOAD AND ENABALE SERVICES (sudo systemctl daemon-reload && sudo systemctl enable hy2)
