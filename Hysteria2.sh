@@ -48,7 +48,7 @@ echo "=========================================================================
 # We install/update the packages we use during the process to ensure optimal performance
 # This installation must run without confirmation (-y)
 sudo apt update &> /FastHysteria2/log.txt
-sudo apt -y install wget tar openssl gawk sshpass &>> /FastHysteria2/log.txt
+sudo apt -y install wget tar openssl gawk sshpass ufw &>> /FastHysteria2/log.txt
 
 echo "=========================================================================
 |                       Optimizing server settings                      |
