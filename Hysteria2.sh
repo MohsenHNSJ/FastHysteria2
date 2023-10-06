@@ -49,6 +49,31 @@ sudo apt update &> /FastHysteria2/log.txt
 sudo apt -y install wget tar openssl gawk &>> /FastHysteria2/log.txt
 
 echo "=========================================================================
+|                       Optimizing server settings                      |
+========================================================================="
+
+# We optimise 'sysctl.conf' file for better performance
+sudo echo "net.ipv4.tcp_keepalive_time = 90
+net.ipv4.ip_local_port_range = 1024 65535
+net.ipv4.tcp_fastopen = 3
+net.core.default_qdisc=fq
+net.ipv4.tcp_congestion_control=bbr
+fs.file-max = 65535000" >> /etc/sysctl.conf
+
+# We optimise 'limits.conf' file for better performance
+sudo echo "* soft     nproc          655350
+* hard     nproc          655350
+* soft     nofile         655350
+* hard     nofile         655350
+root soft     nproc          655350
+root hard     nproc          655350
+root soft     nofile         655350
+root hard     nofile         655350" >> /etc/security/limits.conf
+
+# We apply the changes
+sudo sysctl -p &>> /FastHysteria2/log.txt
+
+echo "=========================================================================
 |                  Adding a new user and configuring                    |
 ========================================================================="
 
@@ -73,28 +98,29 @@ password="$({ choose '123456789'
      done
  } | sort -R | awk '{printf "%s",$1}')"
 
+ # We create a new user
+adduser --gecos "" --disabled-password $username &>> /FastHysteria2/log.txt
 
-echo "=========================================================================
-|                       Optimizing server settings                      |
-========================================================================="
+# We set a password for the new user
+chpasswd <<<"$username:$password"
 
-# We optimise 'sysctl.conf' file for better performance
-sudo echo "net.ipv4.tcp_keepalive_time = 90
-net.ipv4.ip_local_port_range = 1024 65535
-net.ipv4.tcp_fastopen = 3
-net.core.default_qdisc=fq
-net.ipv4.tcp_congestion_control=bbr
-fs.file-max = 65535000" >> /etc/sysctl.conf
+# We grant root privileges to the new user
+usermod -aG sudo $username
 
-# We optimise 'limits.conf' file for better performance
-sudo echo "* soft     nproc          655350
-* hard     nproc          655350
-* soft     nofile         655350
-* hard     nofile         655350
-root soft     nproc          655350
-root hard     nproc          655350
-root soft     nofile         655350
-root hard     nofile         655350" >> /etc/security/limits.conf
+# We save the new user credentials to use after switching user
+# We first must check if it already exists or not
+# If it does exist, we must delete it and make a new one to store new temporary data
+if [ -d "/temphysteria2folder" ]
+then
+    rm -r /temphysteria2folder
+    sudo mkdir /temphysteria2folder
+else
+    sudo mkdir /temphysteria2folder
+fi
 
-# We apply the changes
-sudo sysctl -p &>> /FastHysteria2/log.txt
+echo $username > /temphysteria2folder/tempusername.txt
+echo $password > /temphysteria2folder/temppassword.txt
+
+# We transfer ownership of the temp and log folder to the new user, so the new user is able to add more logs and delete the senstive information when it's no longer needed
+sudo chown -R $username /temphysteria2folder/
+sudo chown -R $username /FastHysteria2/
