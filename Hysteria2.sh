@@ -3,7 +3,7 @@
 # We clear the console
 clear
 
-scriptversion="0.3.5"
+scriptversion="0.4.1"
 
 echo "=========================================================================
 |             Fast Hysteria 2 script by @MohsenHNSJ (Github)            |
@@ -214,11 +214,6 @@ exit ;;
 esac
 
 # We download the latest suitable package for current machine
-
-
-
-
-
-wget https://github.com/SagerNet/sing-box/releases/download/v$latestsingboxversion/sing-box-$latestsingboxversion-linux-amd64.tar.gz
+wget https://github.com/SagerNet/sing-box/releases/download/v$latestsingboxversion/sing-box-$latestsingboxversion-linux-$hwarch.tar.gz
 
 # TODO : RELOAD AND ENABALE SERVICES (sudo systemctl daemon-reload && sudo systemctl enable hy2)
