@@ -1,4 +1,4 @@
-# [WIP]FastHysteria2
+# FastHysteria2
 Fast Hysteria 2
 Optimized for Iran
  
