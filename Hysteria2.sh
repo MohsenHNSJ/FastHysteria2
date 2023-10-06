@@ -2353,6 +2353,8 @@ ALLOW INSECURE : TRUE
 LOCAL USERNAME : $tempusername
 LOCAL PASSWORD : $temppassword
 
+Write down the LOCAL USERNAME & LOCAL PASSWORD
+you may need it for updating Sing-Box later
 Usage of country-based routing is highly advised!"
 
 # We now save the Sing-Box version we have installed
