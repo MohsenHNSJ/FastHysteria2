@@ -46,7 +46,32 @@ echo "=========================================================================
 # We install/update the packages we use during the process to ensure optimal performance
 # This installation must run without confirmation (-y)
 sudo apt update &> /FastHysteria2/log.txt
-sudo apt -y install wget tar openssl &>> /FastHysteria2/log.txt
+sudo apt -y install wget tar openssl gawk &>> /FastHysteria2/log.txt
+
+echo "=========================================================================
+|                  Adding a new user and configuring                    |
+========================================================================="
+
+# We generate a random name for the new user
+choose() { echo ${1:RANDOM%${#1}:1} $RANDOM; }
+username="$({ choose 'abcdefghijklmnopqrstuvwxyz'
+  for i in $( seq 1 $(( 6 + RANDOM % 4 )) )
+     do
+        choose 'abcdefghijklmnopqrstuvwxyz'
+     done
+ } | sort -R | awk '{printf "%s",$1}')"
+
+# We generate a random password for the new user
+# We avoid adding symbols inside the password as it sometimes caused problems, therefore the password lenght is high
+choose() { echo ${1:RANDOM%${#1}:1} $RANDOM; }
+password="$({ choose '123456789'
+  choose 'abcdefghijklmnopqrstuvwxyz'
+  choose 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  for i in $( seq 1 $(( 18 + RANDOM % 4 )) )
+     do
+        choose '123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+     done
+ } | sort -R | awk '{printf "%s",$1}')"
 
 
 echo "=========================================================================
