@@ -3,7 +3,7 @@
 # We clear the console
 clear
 
-scriptversion="0.0.5"
+scriptversion="0.2.2"
 
 echo "=========================================================================
 |             Fast Hysteria 2 script by @MohsenHNSJ (Github)            |
@@ -17,26 +17,6 @@ Check out the github page, contribute and suggest ideas/bugs/improvments.
 | Script version $scriptversion   |
 =========================="
 
-# We want to create a folder to store logs of each action for easier debug in case of an error
-# We first must check if it already exists or not
-# If it does exist, that means Hysteria is already running and installation is not needed
-if [ -d "/FastHysteria2" ]
-then
-    echo "Hysteria 2 is already configured! Cheking Hysteria version..."
-    installedhysteriaversion=$(cat "/FastHysteria2/Version.txt")
-    if [ "$installedhysteriaversion" == "$hysteriaversion" ]
-    then
-            echo "Hysteria 2 is up-to-date!"
-            echo "No action is needed, exiting..."
-    else 
-            echo "Hysteria 2 has updates! updating..."
-            # TODO : UPDATE MECHANISM!!!!
-    fi
-    exit
-else
-    mkdir /FastHysteria2
-fi
-
 echo "=========================================================================
 |       Updating repositories and installing the required packages      |
 |              (This may take a few minutes, Please wait...)            |
@@ -44,8 +24,39 @@ echo "=========================================================================
 # We update 'apt' repository 
 # We install/update the packages we use during the process to ensure optimal performance
 # This installation must run without confirmation (-y)
-sudo apt update &> /FastHysteria2/log.txt
-sudo apt -y install wget tar openssl gawk sshpass ufw coreutils &>> /FastHysteria2/log.txt
+sudo apt update
+sudo apt -y install wget tar openssl gawk sshpass ufw coreutils curl adduser sed grep
+
+# We check and save the latest version number of Sing-Box
+latestsingboxversion="$(curl --silent "https://api.github.com/repos/SagerNet/sing-box/releases/latest" | grep -Po "(?<=\"tag_name\": \").*(?=\")"  | sed 's/^.//' )"
+
+
+echo "=========================================================================
+|                   Checking for existing installation                  |
+========================================================================="
+
+# We want to create a folder to store logs of each action for easier debug in case of an error
+# We first must check if it already exists or not
+# If it does exist, that means Hysteria 2 is already running and installation is not needed
+# We then check the installed version and update it if available
+if [ -d "/FastHysteria2" ]
+then
+    echo "Hysteria 2 is already configured! Cheking version..."
+    installedsingboxversion=$(cat "/FastHysteria2/Version.txt")
+    if [ "$installedsingboxversion" == "$latestsingboxversion" ]
+    then
+            echo "Sing-Box is up-to-date!"
+            echo "No action is needed, exiting..."
+            exit
+    else 
+            echo "Sing-Box has updates! updating..."
+            # TODO : UPDATE MECHANISM!!!!
+    fi
+    exit
+else
+    mkdir /FastHysteria2
+fi
+
 
 echo "=========================================================================
 |                       Optimizing server settings                      |
@@ -119,6 +130,7 @@ fi
 
 echo $username > /temphysteria2folder/tempusername.txt
 echo $password > /temphysteria2folder/temppassword.txt
+echo $latestsingboxversion > /temphysteria2folder/templatestsingboxversion.txt
 
 # We transfer ownership of the temp and log folder to the new user, so the new user is able to add more logs and delete the senstive information when it's no longer needed
 sudo chown -R $username /temphysteria2folder/
@@ -157,10 +169,12 @@ sshpass -p $password ssh -o "StrictHostKeyChecking=no" $username@127.0.0.1
 # We read the saved credentials
 tempusername=$(</temphysteria2folder/tempusername.txt)
 temppassword=$(</temphysteria2folder/temppassword.txt)
+templatestsingboxversion=$(</temphysteria2folder/templatestsingboxversion.txt)
 
 # We delete senstive inforamtion
 rm /temphysteria2folder/tempusername.txt
 rm /temphysteria2folder/temppassword.txt
+rm /temphysteria2folder/templatestsingboxversion.txt
 
 # We provide password to 'sudo' command and open port 443
 echo $temppassword | sudo -S ufw allow 443
@@ -178,4 +192,4 @@ cd hysteria2/
 # We check and save the hardware architecture of current machine
 hwarch="$(uname -m)"
 
-# We check and save the latest version number of Sing-Box
+# We download the latest suitable package for current machine
