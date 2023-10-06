@@ -3,7 +3,7 @@
 # We clear the console
 clear
 
-scriptversion="1.0.0"
+scriptversion="1.0.1"
 
 echo "=========================================================================
 |             Fast Hysteria 2 script by @MohsenHNSJ (Github)            |
