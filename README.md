@@ -1,4 +1,4 @@
-[Click here to jump to English](https://github.com/MohsenHNSJ/FastHysteria2#fasthysteria2)
+[Click here to jump to English](https://github.com/MohsenHNSJ/FastHysteria2#fasthysteria2-1)
 
 # FastHysteria2
 اجرای سریع Hysteria 2
