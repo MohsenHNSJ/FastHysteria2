@@ -3,7 +3,7 @@
 # We clear the console
 clear
 
-scriptversion="0.0.3"
+scriptversion="0.0.4"
 hysteriaversion="1.0.0"
 singboxversion="1.5.1"
 
@@ -48,7 +48,7 @@ echo "=========================================================================
 # We install/update the packages we use during the process to ensure optimal performance
 # This installation must run without confirmation (-y)
 sudo apt update &> /FastHysteria2/log.txt
-sudo apt -y install wget tar openssl gawk sshpass ufw &>> /FastHysteria2/log.txt
+sudo apt -y install wget tar openssl gawk sshpass ufw coreutils &>> /FastHysteria2/log.txt
 
 echo "=========================================================================
 |                       Optimizing server settings                      |
