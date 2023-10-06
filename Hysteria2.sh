@@ -3,7 +3,7 @@
 # We clear the console
 clear
 
-scriptversion="0.2.2"
+scriptversion="0.2.3"
 
 echo "=========================================================================
 |             Fast Hysteria 2 script by @MohsenHNSJ (Github)            |
@@ -56,7 +56,6 @@ then
 else
     mkdir /FastHysteria2
 fi
-
 
 echo "=========================================================================
 |                       Optimizing server settings                      |
@@ -141,7 +140,6 @@ echo "=========================================================================
 ========================================================================="
 
 # We create a service file
-# TODO : UNRESOLVED $MAINPID
 sudo echo "[Unit]
 Description=sing-box service
 Documentation=https://sing-box.sagernet.org
@@ -152,7 +150,7 @@ Group=$username
 CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE CAP_SYS_PTRACE CAP_DAC_READ_SEARCH
 AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE CAP_SYS_PTRACE CAP_DAC_READ_SEARCH
 ExecStart=/home/$username/hysteria2/sing-box -D /home/$username/hysteria2/ run -c /home/$username/hysteria2/config.json
-ExecReload=/bin/kill -HUP $MAINPID
+ExecReload=/bin/kill -HUP \$MAINPID
 Restart=on-failure
 RestartSec=10s
 LimitNOFILE=infinity
