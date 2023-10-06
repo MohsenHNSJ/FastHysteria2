@@ -12,3 +12,4 @@ Thanks to: [@SasukeFreestyle](https://github.com/SasukeFreestyle) for the origin
 - Configures `ufw` to allow port 443
 - Uses `AVX` optimized package automatically if the machine supports it (`amd64v3`)
 - Generates required certificates and keys
+- Generates QR-Code to connect easily
