@@ -3,8 +3,9 @@
 # We clear the console
 clear
 
-scriptversion="0.0.2"
+scriptversion="0.0.3"
 hysteriaversion="1.0.0"
+singboxversion="1.5.1"
 
 echo "=========================================================================
 |             Fast Hysteria 2 script by @MohsenHNSJ (Github)            |
@@ -14,9 +15,10 @@ echo "=========================================================================
 =========================================================================
 Check out the github page, contribute and suggest ideas/bugs/improvments.
 
-========================
-| Script version $scriptversion |
-========================"
+==========================
+| Script version $scriptversion   |
+| Sing-Box version $singboxversion |
+=========================="
 
 # We want to create a folder to store logs of each action for easier debug in case of an error
 # We first must check if it already exists or not
@@ -46,7 +48,7 @@ echo "=========================================================================
 # We install/update the packages we use during the process to ensure optimal performance
 # This installation must run without confirmation (-y)
 sudo apt update &> /FastHysteria2/log.txt
-sudo apt -y install wget tar openssl gawk &>> /FastHysteria2/log.txt
+sudo apt -y install wget tar openssl gawk sshpass &>> /FastHysteria2/log.txt
 
 echo "=========================================================================
 |                       Optimizing server settings                      |
@@ -148,3 +150,31 @@ LimitNOFILE=infinity
 
 [Install]
 WantedBy=multi-user.target" > /etc/systemd/system/hysteria2.service
+
+echo "=========================================================================
+|                           Switching user                              |
+========================================================================="
+# We now switch to the new user
+sshpass -p $password ssh -o "StrictHostKeyChecking=no" $username@127.0.0.1
+
+# We read the saved credentials
+tempusername=$(</temphysteria2folder/tempusername.txt)
+temppassword=$(</temphysteria2folder/temppassword.txt)
+
+# We delete senstive inforamtion
+rm /temphysteria2folder/tempusername.txt
+rm /temphysteria2folder/temppassword.txt
+
+# We provide password to 'sudo' command and open port 443
+echo $temppassword | sudo -S ufw allow 443
+
+echo "=========================================================================
+|               Downloading Sing-Box and required files                 |
+========================================================================="
+
+# We create directory to hold Hysteria files
+mkdir hysteria2
+
+# We navigate to directory we created
+cd hysteria2/
+
