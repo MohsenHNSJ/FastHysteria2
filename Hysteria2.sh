@@ -3,7 +3,7 @@
 # We clear the console
 clear
 
-scriptversion="0.8.4"
+scriptversion="0.9.7"
 
 echo "=========================================================================
 |             Fast Hysteria 2 script by @MohsenHNSJ (Github)            |
@@ -25,7 +25,7 @@ echo "=========================================================================
 # We install/update the packages we use during the process to ensure optimal performance
 # This installation must run without confirmation (-y)
 sudo apt update
-sudo apt -y install wget tar openssl gawk sshpass ufw coreutils curl adduser sed grep util-linux
+sudo apt -y install wget tar openssl gawk sshpass ufw coreutils curl adduser sed grep util-linux qrencode
 
 # We check and save the latest version number of Sing-Box
 latestsingboxversion="$(curl --silent "https://api.github.com/repos/SagerNet/sing-box/releases/latest" | grep -Po "(?<=\"tag_name\": \").*(?=\")"  | sed 's/^.//' )"
@@ -39,7 +39,7 @@ echo "=========================================================================
 # We then check the installed version and update it if available
 if [ -d "/FastHysteria2" ]
 then
-    echo "Hysteria 2 is already configured! Cheking version..."
+    echo "Sing-Box is already configured! Cheking version..."
     installedsingboxversion=$(cat "/FastHysteria2/Version.txt")
     if [ "$installedsingboxversion" == "$latestsingboxversion" ]
     then
@@ -211,6 +211,9 @@ wget https://github.com/SagerNet/sing-box/releases/download/v$latestsingboxversi
 
 # We extract the package
 tar -xzf sing-box-$latestsingboxversion-linux-$hwarch.tar.gz --strip-components=1 sing-box-$latestsingboxversion-linux-$hwarch/sing-box
+
+# We remove downloaded file
+rm sing-box-$latestsingboxversion-linux-$hwarch.tar.gz
 
 # We create certificate keys
 openssl ecparam -genkey -name prime256v1 -out ca.key
@@ -2332,16 +2335,16 @@ sudo systemctl start hysteria2 && sudo systemctl status hysteria2
 echo "=========================================================================
 |                                DONE                                   |
 ========================================================================="
-# We get vps ip
-vpsip=$(hostname -I | awk '{ print $1}')
+# We get server ip
+serverip=$(hostname -I | awk '{ print $1}')
 
-# We get vps name
-hostname=$('hostname')
+# We get server name
+servername=$('hostname')
 
 # We show connection information
 echo "
-NAME : $hostname
-ADDRESS : $vpsip
+NAME : $servername
+ADDRESS : $serverip
 PORT : 443
 OBFUSCATION PASSWORD : $salamanderpassword
 AUTHENTICATION PASSWORD : $hysteriapassword
@@ -2349,6 +2352,18 @@ ALLOW INSECURE : TRUE
 ==========
 LOCAL USERNAME : $tempusername
 LOCAL PASSWORD : $temppassword
-"
 
-# We show some final
+Usage of country-based routing is highly advised!"
+
+# We now save the Sing-Box version we have installed
+mkdir /FastHysteria2
+echo "$latestsingboxversion" > /FastHysteria2/version.txt
+
+echo "=========================================================================
+|                               QRCODE                                  |
+========================================================================="
+
+serverconfig="hy2://$hysteriapassword@$serverip:443/?insecure=1&obfs=salamander&obfs-password=$salamanderpassword#$servername"
+
+# We output a qrcode to ease connection
+qrencode -t ansiutf8 $serverconfig
