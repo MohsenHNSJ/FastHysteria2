@@ -13,3 +13,18 @@ Thanks to: [@SasukeFreestyle](https://github.com/SasukeFreestyle) for the origin
 - Uses `AVX` optimized package automatically if the machine supports it (`amd64v3`)
 - Generates required certificates and keys
 - Generates QR-Code to connect easily
+
+# Requires:
+1. VPS with Linux OS outside of Iran and accessible by the user (Tests were done on Ubuntu 22.04)
+2. Optionally upgrade all your OS packages to the latest version (for security and performance)
+
+# Usage:
+1. Run the following command in your VPS:
+
+```
+sudo curl -s https://raw.githubusercontent.com/MohsenHNSJ/FastHysteria2/master/Hysteria2.sh | bash
+```
+
+2. Wait a few minutes and scan the QR Code
+
+### Peace
