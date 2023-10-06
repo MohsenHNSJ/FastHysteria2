@@ -38,6 +38,16 @@ else
     mkdir /FastHysteria2
 fi
 
+echo "=========================================================================
+|       Updating repositories and installing the required packages      |
+|              (This may take a few minutes, Please wait...)            |
+========================================================================="
+# We update 'apt' repository 
+# We install/update the packages we use during the process to ensure optimal performance
+# This installation must run without confirmation (-y)
+sudo apt update &> /FastHysteria2/log.txt
+sudo apt -y install wget tar openssl &>> /FastHysteria2/log.txt
+
 
 echo "=========================================================================
 |                       Optimizing server settings                      |
