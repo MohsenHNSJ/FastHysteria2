@@ -2362,7 +2362,6 @@ echo "$latestsingboxversion" > /FastHysteria2/version.txt
 echo "=========================================================================
 |                               QRCODE                                  |
 ========================================================================="
-
 serverconfig="hy2://$hysteriapassword@$serverip:443/?insecure=1&obfs=salamander&obfs-password=$salamanderpassword#$servername"
 
 # We output a qrcode to ease connection
