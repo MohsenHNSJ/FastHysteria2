@@ -10,4 +10,5 @@ Thanks to: [@SasukeFreestyle](https://github.com/SasukeFreestyle) for the origin
 - Optimize server settings for best performance
 - Sets up the Hysteria on a separate user (NOT `root`) that is randomly created
 - Configures `ufw` to allow port 443
-- Uses `AVX` optimized package automatically if the machine supports it
+- Uses `AVX` optimized package automatically if the machine supports it (`amd64v3`)
+- Generates required certificates and keys
