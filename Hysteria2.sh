@@ -3,7 +3,7 @@
 # We clear the console
 clear
 
-scriptversion="0.4.1"
+scriptversion="0.5.1"
 
 echo "=========================================================================
 |             Fast Hysteria 2 script by @MohsenHNSJ (Github)            |
@@ -216,4 +216,12 @@ esac
 # We download the latest suitable package for current machine
 wget https://github.com/SagerNet/sing-box/releases/download/v$latestsingboxversion/sing-box-$latestsingboxversion-linux-$hwarch.tar.gz
 
-# TODO : RELOAD AND ENABALE SERVICES (sudo systemctl daemon-reload && sudo systemctl enable hy2)
+# We extract the package
+tar -xzf sing-box-$latestsingboxversion-linux-$hwarch.tar.gz --strip-components=1 sing-box-$latestsingboxversion-linux-$hwarch/sing-box
+
+# We create certificate keys
+openssl ecparam -genkey -name prime256v1 -out ca.key
+openssl req -new -x509 -days 36500 -key ca.key -out ca.crt -subj "/CN=google-analytics.com"
+
+# We restart the service and enable auto-start
+sudo systemctl daemon-reload && sudo systemctl enable hysteria2
