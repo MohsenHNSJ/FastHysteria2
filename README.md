@@ -1,3 +1,24 @@
+[Click here to jump to English](https://github.com/MohsenHNSJ/FastHysteria2#fasthysteria2)
+
+# FastHysteria2
+اجرای سریع Hysteria 2
+بهینه شده برای ایران
+
+با تشکر از: [@SasukeFreestyle](https://github.com/SasukeFreestyle) برای آموزش اصلی
+
+# نیازمندی ها:
+1. یک سرور مجازی با سیستم عامل لینوکس واقع شده در خارج از ایران که از داخل ایران قابل دسترسی باشد (بر روی اوبونتو 22.04 تست شده)
+2.  در صورت امکان با دستورات apt update و apt upgrade بسته های سیستم عامل را بروزرسانی کنید (اختیاری) (جهت افزایش امنیت و عملکرد)
+
+3.  # نحوه استفاده:
+1. دستور زیر را در سرور مجازی خود اجرا کنید:
+```
+sudo curl -s https://raw.githubusercontent.com/MohsenHNSJ/FastHysteria2/master/Hysteria2.sh | bash
+```
+2. چند دقیقه صبر کنید و سپس کد QR نشان داده شده را اسکن کنید
+
+3.  # سلامت باشید!
+
 # FastHysteria2
 Fast Hysteria 2
 Optimized for Iran
