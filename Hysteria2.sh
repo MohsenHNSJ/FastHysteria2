@@ -3,9 +3,7 @@
 # We clear the console
 clear
 
-scriptversion="0.0.4"
-hysteriaversion="1.0.0"
-singboxversion="1.5.1"
+scriptversion="0.0.5"
 
 echo "=========================================================================
 |             Fast Hysteria 2 script by @MohsenHNSJ (Github)            |
@@ -17,7 +15,6 @@ Check out the github page, contribute and suggest ideas/bugs/improvments.
 
 ==========================
 | Script version $scriptversion   |
-| Sing-Box version $singboxversion |
 =========================="
 
 # We want to create a folder to store logs of each action for easier debug in case of an error
@@ -178,3 +175,7 @@ mkdir hysteria2
 # We navigate to directory we created
 cd hysteria2/
 
+# We check and save the hardware architecture of current machine
+hwarch="$(uname -m)"
+
+# We check and save the latest version number of Sing-Box
