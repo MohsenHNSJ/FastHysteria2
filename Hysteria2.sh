@@ -124,3 +124,27 @@ echo $password > /temphysteria2folder/temppassword.txt
 # We transfer ownership of the temp and log folder to the new user, so the new user is able to add more logs and delete the senstive information when it's no longer needed
 sudo chown -R $username /temphysteria2folder/
 sudo chown -R $username /FastHysteria2/
+
+echo "=========================================================================
+|                      Creating Hysteria 2 service                      |
+========================================================================="
+
+# We create a service file
+# TODO : UNRESOLVED $MAINPID
+sudo echo "[Unit]
+Description=sing-box service
+Documentation=https://sing-box.sagernet.org
+After=network.target nss-lookup.target
+[Service]
+User=$username
+Group=$username
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE CAP_SYS_PTRACE CAP_DAC_READ_SEARCH
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE CAP_SYS_PTRACE CAP_DAC_READ_SEARCH
+ExecStart=/home/$username/hysteria2/sing-box -D /home/$username/hysteria2/ run -c /home/$username/hysteria2/config.json
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=10s
+LimitNOFILE=infinity
+
+[Install]
+WantedBy=multi-user.target" > /etc/systemd/system/hysteria2.service
