@@ -1,3 +1,7 @@
+# [Use TunlDigr instead!](https://github.com/MohsenHNSJ/TunlDigr)  
+
+---
+
 [Click here to jump to English](https://github.com/MohsenHNSJ/FastHysteria2#fasthysteria2-1)
 
 # FastHysteria2
